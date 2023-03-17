@@ -67,7 +67,6 @@ class GenreController extends Controller
         return response()->json([
             'books associated with ' . $genre->name => $genre->books
         ]);
-    // }
     }
 }
 

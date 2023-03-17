@@ -1,0 +1,57 @@
+__________________________
+|	Utilisateur	 |
+__________________________
+	|		|
+	|		|
+      admin	 receptionniste
+
+- Fonctionnalités clés:
+
+--> Création, édition, suppression et consultation des livres.
+--> Création, édition, suppression et consultation de genre.
+--> Implémentation de rôles utilisateur pour limiter les fonctionnalités en fonction des permissions d'accès.
+
+Utilisateur:
+
+1- Signup (first name - Last name - email - password)
+2- login (email - password)
+3- Forgot password
+4- profile settings
+
+Receptionist:
+
+1- create book (title - author - collection - isbn - publication date (date data type) - numbre of pages - physical place
+		statut {emprunté, disponible, entraitement} (f.k) - content - genre (f.k))
+2- edit and delete books
+3- get books 
+4- get book
+5- filter by genre
+
+Admin:
+
+1- edit and delete books
+2- create, edit and delete genres (name)
+3- change users roles
+
+CRUDs:
+- profile
+- books 
+- genres
+
+Tasks:
+15/03/2022:
+- create classes and database migrations and factories
+- crud books
+
+16/03/2022:
+- crud genre + filter
+
+17/03/2022:
+- profile settings - login - signup - forgot password [install sanctum]
+- middlewares 
+- edit roles (permissions->spaty)
+- conception 
+- create JIRA
+- validate data
+notes :
+- Put middleware in constructor 
