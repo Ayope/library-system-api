@@ -47,9 +47,9 @@ Tasks:
 - crud genre + filter
 
 17/03/2022:
-- profile settings - login - signup - forgot password [install sanctum]
-- middlewares 
+- profile settings - login - signup - forgot password (config email settings) [install sanctum]
 - edit roles (permissions->spaty)
+- middlewares 
 - conception 
 - create JIRA
 - validate data

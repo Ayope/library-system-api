@@ -31,5 +31,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout']);
 Route::post('refresh', [AuthController::class, 'refresh']);
 Route::post('me', [AuthController::class, 'me']);
-Route::post('profile', [AuthController::class, 'profileEdit']);
+Route::post('profile/{user}', [AuthController::class, 'profileEdit']);
+Route::post('forgot', [AuthController::class, 'forgot']);
+Route::post('reset/{token}', [AuthController::class, 'reset'])->name('reset.password.post');
 

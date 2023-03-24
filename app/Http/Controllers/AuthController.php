@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Models\User;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\AuthController;
 
 class AuthController extends Controller
 {
@@ -14,7 +21,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register', 'forgot', 'reset']]);
     }
 
     public function register(Request $request)
@@ -49,7 +56,7 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'wrong credintials'], 401);
         }
 
         return $this->respondWithToken($token);
@@ -102,12 +109,12 @@ class AuthController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
-    // under test
+    
     public function profileEdit(Request $request, User $user){
-        $input = $request->only('name', 'email', 'password', 'c_password');
+        $input = $request->only('email', 'password', 'c_password');
 
         $validator = $request->validate([
-            'email' => 'email|unique:users',
+            'email' => 'email',
             'password' => 'min:8',
             'c_password' => 'same:password',
         ]);
@@ -130,18 +137,9 @@ class AuthController extends Controller
         if($exist){
             $user = User::where('email', $request->email)->first();
 
-            if($user->email_verified_at == NULL){
-
-                $user->sendConfirmationEmail();
-
-                return response()->json([
-                    'Error' => 'Go verify your email first, we emailed you with confirmation link'
-                ]);
-            }
-
             $token = Str::random(64);
 
-            $insert = DB::table('password_resets')->insert([
+            $insert = DB::table('password_reset_tokens')->insert([
                 'email' => $request->email,
                 'token' => $token,
                 'created_at' => Carbon::now()
@@ -159,18 +157,18 @@ class AuthController extends Controller
             }
         }else{
             return response()->json([
-                'Error' => 'Your email does not exist'
+                'Error' => 'Something went wrong'
             ]);
         }
     }
-    // not work yet (need routes)
+
     public function reset($token, Request $request){
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:8|confirmed'
         ]);
 
-        $validateToken = DB::table('password_resets')->where([
+        $validateToken = DB::table('password_reset_tokens')->where([
             'token' => $token,
             'email' => $request->email
         ])->first();
@@ -185,7 +183,7 @@ class AuthController extends Controller
         ->update(['password' => Hash::make($request->password)]);
 
         if($user){
-            DB::table('password_resets')->where(['email'=> $request->email])->delete();
+            DB::table('password_reset_tokens')->where(['email'=> $request->email])->delete();
 
             return response()->json([
                 'Success' => 'password updated successfully'
