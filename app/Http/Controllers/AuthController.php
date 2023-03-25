@@ -37,6 +37,7 @@ class AuthController extends Controller
 
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
+        $user->assignRole('admin');
 
         if($user){
             return response()->json([

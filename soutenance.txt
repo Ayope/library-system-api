@@ -3,7 +3,7 @@ __________________________
 __________________________
 	|		|
 	|		|
-      admin	 receptionniste
+admin	 receptionniste
 
 - Fonctionnalités clés:
 
