@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\GenreController;
 
 /*
@@ -23,6 +24,8 @@ use App\Http\Controllers\GenreController;
 
 Route::apiResource('books', BookController::class);
 Route::apiResource('genres', GenreController::class);
+Route::apiResource('roles', RoleController::class);
+Route::post('roles/switch/{user_id}', [RoleController::class, 'switchRole']);
 Route::get('booksByGenre/{genre_id}', [GenreController::class, 'filterByGenre']);
 
 

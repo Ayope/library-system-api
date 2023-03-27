@@ -37,7 +37,7 @@ class AuthController extends Controller
 
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $user->assignRole('admin');
+        $user->assignRole('viewer');
 
         if($user){
             return response()->json([
@@ -110,7 +110,7 @@ class AuthController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
-    
+
     public function profileEdit(Request $request, User $user){
         $input = $request->only('email', 'password', 'c_password');
 

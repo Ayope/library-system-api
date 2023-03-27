@@ -23,20 +23,22 @@ Receptionist:
 1- create book (title - author - collection - isbn - publication date (date data type) - numbre of pages - physical place
 		statut {emprunté, disponible, entraitement} (f.k) - content - genre (f.k))
 2- edit and delete books
-3- get books 
+3- get books
 4- get book
-5- filter by genre
+5- filter by genres
 
 Admin:
 
 1- edit and delete books
 2- create, edit and delete genres (name)
 3- change users roles
+4- add, edit, delete roles
 
 CRUDs:
 - profile
-- books 
+- books
 - genres
+- roles
 
 Tasks:
 15/03/2022:
@@ -47,11 +49,11 @@ Tasks:
 - crud genre + filter
 
 17/03/2022:
-- profile settings - login - signup - forgot password (config email settings) [install sanctum]
-- edit roles (permissions->spaty)
-- middlewares 
-- conception 
+- profile settings - login - sign up - forgot password (config email settings) [install sanctum]
+- edit roles (permissions->spatie)
+- middleware (spatie permission middleware)
+- conception
 - create JIRA
 - validate data
 notes :
-- Put middleware in constructor 
+- Put middleware in constructor
