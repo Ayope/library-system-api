@@ -11,6 +11,17 @@ use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('permission:view_roles', ['only' => ['index']]);
+        $this->middleware('permission:role_create', ['only' => ['store']]);
+        $this->middleware('permission:role_edit', ['only' => ['update']]);
+        $this->middleware('permission:role_show', ['only' => ['show']]);
+        $this->middleware('permission:view_users', ['only' => ['ViewUsersRoles']]);
+        $this->middleware('permission:edit_user_role', ['only' => ['switchRole']]);
+        $this->middleware('permission:role_delete', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -48,9 +59,7 @@ class RoleController extends Controller
     {
         $roleWithPermissions = Role::with('permissions')->where('id', $id)->first();
         if($roleWithPermissions){
-                return new RoleResource($roleWithPermissions);
-
-
+            return new RoleResource($roleWithPermissions);
         }else{
             return response()->json([
                 'error' => 'nothing'
@@ -100,12 +109,19 @@ class RoleController extends Controller
         }
     }
 
+    public function ViewUsersRoles(){
+        $user = User::with('roles')->get();
+        return response()->json([
+            "message" => $user
+        ]);
+    }
+
     public function switchRole(Request $request, $user_id)
     {
         $request->validate([
             'role'=>'required|exists:roles,name',
         ]);
-        
+
         try{
             $user  = User::with('roles')->findOrFail($user_id);
             $user->syncRoles($request->role);

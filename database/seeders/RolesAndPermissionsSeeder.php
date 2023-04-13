@@ -26,12 +26,12 @@ class RolesAndPermissionsSeeder extends Seeder
             'book_show',
             'book_delete',
 
-            'view_users', // with role
             'view_roles',
             'role_create',
             'role_edit',
             'role_show',
             'role_delete',
+            'view_users',
             'edit_user_role',
 
             'view_genres',

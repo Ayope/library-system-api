@@ -11,7 +11,12 @@ class GenreController extends Controller
 {
     public function __construct()
     {
-
+        $this->middleware('permission:view_genres', ['only' => ['index']]);
+        $this->middleware('permission:genre_create', ['only' => ['store']]);
+        $this->middleware('permission:genre_edit', ['only' => ['update']]);
+        $this->middleware('permission:genre_show', ['only' => ['show']]);
+        $this->middleware('permission:genre_delete', ['only' => ['destroy']]);
+        $this->middleware('permission:genre_filter', ['only' => ['filterByGenre']]);
     }
 
     public function index()
